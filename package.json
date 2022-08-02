@@ -1,0 +1,20 @@
+{
+  "name": "openlayers-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.6.7"
+  },
+  "dependencies": {
+    "bootstrap-table": "^1.19.1",
+    "esbuild": "^0.14.51",
+    "ol": "latest",
+    "ol-geocoder": "^4.1.2",
+    "ol-layerswitcher": "^3.8.3",
+    "requirejs": "^2.3.6"
+  }
+}
