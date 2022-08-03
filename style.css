@@ -1,137 +1,151 @@
 @import "node_modules/ol/ol.css";
 
-html, body {
-  height: 100%;
-  margin-left: 2%;
-  margin-right: 2%;  
+html,
+body {
+	height: 100%;
+	margin-left: 2%;
+	margin-right: 2%;
 }
 #map {
-  top: 0;
-  bottom: 0;
-  width: 80%;
-  height:50%;
+	top: 0;
+	bottom: 0;
+	width: 80%;
+	height: 50%;
 }
 .ol-dragbox {
-  background-color: rgba(255,255,255,0.4);
-  border-color: rgba(100,150,0,1);
+	background-color: rgba(255, 255, 255, 0.4);
+	border-color: rgba(100, 150, 0, 1);
 }
 #info {
-  position:relative;
-  display: none;
+	position: relative;
+	display: none;
 }
 .sidepanel {
-  background: #1F6B75;
-  width: 20%;
-  height: 50%;
-  float: right;
+	position: relative;
+	background: #1f6b75;
+	width: 20%;
+	height: 50%;
+	float: right;
 }
 
 .sidepanel-title {
-  width: 100%;
-  font-size: 2em;
-  color: #ffffff;
-  display: block;
-  text-align: center;
-  padding-top: 10px;
+	width: 100%;
+	font-size: 2em;
+	color: #ffffff;
+	display: block;
+	text-align: center;
+	padding-top: 10px;
 }
 
 .sidepanel-text {
-  width: 100%;
-  font-size: 0.8em;
-  font-style: italic;
-  color: #ffffff;
-  display: block;
-  text-align: left;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+	width: 100%;
+	font-size: 0.8em;
+	font-style: italic;
+	color: #ffffff;
+	display: block;
+	text-align: left;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 #search-input {
-  width: 80%;
-  /* display: inline-block; */
-  margin-top: 10px;
-  display: none;
+	width: 80%;
+	/* display: inline-block; */
+	margin-top: 10px;
+	display: none;
 }
 
 #clear-button {
-  display: none;
-  margin-top: 10px;
-  float: right;
+	display: none;
+	margin-top: 10px;
+	float: right;
 }
 
 #tableToCSV {
-  display: none;
-  margin-top: 10px;
-  float: right;
-  margin-right: 10px;
+	display: none;
+	margin-top: 10px;
+	float: right;
+	margin-right: 10px;
 }
 
 #lblName {
-  float: right;
-  display: inline-block;
-  width: 20%;
-  text-align: right;
-  margin-top: 10px;
+	float: right;
+	display: inline-block;
+	width: 20%;
+	text-align: right;
+	margin-top: 10px;
 }
 
-th, td, p, input {
-  font:0.9em Verdana;
+th,
+td,
+p,
+input {
+	font: 0.9em Verdana;
 }
-table, th, td 
-{
-  border: solid 1px #DDD;
-  border-collapse: collapse;
-  padding: 2px 2px;
-  text-align: center;
-  font-size: 0.9em;
-  vertical-align: top !important;
+table,
+th,
+td {
+	border: solid 1px #ddd;
+	border-collapse: collapse;
+	padding: 2px 2px;
+	text-align: center;
+	font-size: 0.9em;
+	vertical-align: top !important;
 }
 th {
-  font-weight:bold;
+	font-weight: bold;
 }
 
 #info {
-  margin-top: 20px;
-} 
+	margin-top: 20px;
+}
 
 #count {
-  margin-top: 20px;
-  position:relative;
-} 
+	margin-top: 20px;
+	position: relative;
+}
 
 .no-records-found {
-  display: none;
-  text-align: center;
+	display: none;
+	text-align: center;
 }
 
 .layer-switcher {
-  top: 1em !important;
-  max-width: 300px;
+	top: 1em !important;
+	max-width: 300px;
 }
 
-.more{
-  display:inline-block;
-  width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.more {
+	display: inline-block;
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-.more:hover{
-  white-space:initial;
-  cursor:pointer;
-  width:100%;
+.more:hover {
+	white-space: initial;
+	cursor: pointer;
+	width: 100%;
 }
 
 .zc-body {
-  background: #232020;
+	background: #232020;
 }
 
 #myChart {
-  padding-top: 10px;
-  display: none;
+	padding-top: 10px;
+	display: none;
 }
 
 #myChart-license-text {
-  padding-top: 5px;
+	padding-top: 5px;
+}
+
+#select-all-btn {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	bottom: 1.5vh;
 }
