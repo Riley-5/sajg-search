@@ -309,6 +309,14 @@ dragBox.on("boxstart", function () {
 	selectedFeatures.clear()
 	dataArray = []
 	$("#info-table > tbody").html("")
+
+	if ($("#info").is(":visible")) {
+		$("#info").toggle()
+		$("#search-input").toggle()
+		$("#clear-button").toggle()
+		$("#tableToCSV").toggle()
+		$("#myChart").toggle()
+	}
 })
 
 selectedFeatures.on(["add", "remove"], function () {
