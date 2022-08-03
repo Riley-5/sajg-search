@@ -325,7 +325,6 @@ selectedFeatures.on(["add", "remove"], function () {
 			Link: feature.get("Link"),
 			ID: feature.get("ID")
 		})
-
 		return feature.get("ID")
 	})
 	// if (names.length > 0) {
@@ -335,14 +334,103 @@ selectedFeatures.on(["add", "remove"], function () {
 	// }
 })
 
-// TODO
 /*
-  Click on marker 
-  Show the conent of the paper for that marker in the table below the map
+	Click on marker 
+	Show the journal information in the table below the map for that journal artical
 */
 map.on("click", (event) => {
+	/*
+		When the map is clicked
+		Clear the selected fetures
+		set the dataArray to an empty array
+		If the table below the map is showing toggle it to not show
+			-> For when a user click from a point to the map
+			
+	*/
+	selectedFeatures.clear()
+	dataArray = []
+	if ($("#info").is(":visible")) {
+		$("#info").toggle()
+		$("#search-input").toggle()
+		$("#clear-button").toggle()
+		$("#tableToCSV").toggle()
+		$("#myChart").toggle()
+	}
+
+	/*
+		When a marker is clicked 
+		Clear the Selected Features and dataArray
+		If the tabel below the map is showing toggle it off
+			-> for when a user clicks from one marker to the next (resets it)
+	*/
 	map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-		console.log(feature)
+		selectedFeatures.clear()
+		dataArray = []
+		$("#info-table > tbody").html("")
+		if ($("#info").is(":visible")) {
+			$("#info").toggle()
+			$("#search-input").toggle()
+			$("#clear-button").toggle()
+			$("#tableToCSV").toggle()
+			$("#myChart").toggle()
+		}
+
+		var done = []
+		var test = null
+		selectedFeatures.push(feature)
+
+		// Loop through the dataArray for the clicked on point and add the journal artical data to the table
+		for (var i = 0; i < dataArray.length; i++) {
+			test = dataArray[i].ID
+
+			if (findValueInArray(test, done) == "Doesn't exist") {
+				$("#info-table > tbody:last-child").append(
+					"<tr>" + // need to change closing tag to an opening `<tr>` tag.
+						// + '<td>' + dataArray[i].ID + '</td>'
+						"<td>" +
+						dataArray[i].Title +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Author +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Keywords +
+						"</td>" +
+						//+ '<td><span class="more">' + dataArray[i].Abstract + '</span></td>'
+						"<td>" +
+						dataArray[i].Abstract +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Vol +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Year +
+						"</td>" +
+						'<td><a href="' +
+						dataArray[i].Link +
+						'" target="_blank">' +
+						dataArray[i].Link +
+						"</a></td>" +
+						"</tr>"
+				)
+			}
+			done.push(test)
+		}
+
+		// Show the table for the clicked on journal artical
+		$("#info").toggle()
+		$("#search-input").toggle()
+		$("#clear-button").toggle()
+		$("#tableToCSV").toggle()
+
+		// Add the keywords to the word cloud for the clicked on marker
+		var result = dataArray.map((x) => x.Keywords)
+		result = result
+			.toString()
+			.toLowerCase()
+			.replace(/[&\/\\#^+()$~%.'":;,*?<>{}!@]/g, "")
+		testing(result)
+		$("#myChart").toggle()
 	})
 })
 
