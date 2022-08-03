@@ -449,6 +449,19 @@ map.on("click", (event) => {
 	document.querySelector("#search-input").value = ""
 })
 
+// TODO
+/*
+	Select all btn clicked
+	Get all the journal articals and add them to the table below the map
+	
+*/
+const selectAllBtn = document.querySelector("#select-all-btn")
+selectAllBtn.addEventListener("click", () => {
+	vectorLayer.getSource().forEachFeature((feature) => {
+		console.log(feature.get("Title"))
+	})
+})
+
 // Instantiate with some options and add the Control
 const geocoder = new Geocoder("nominatim", {
 	provider: "osm",
