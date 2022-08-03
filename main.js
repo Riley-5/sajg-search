@@ -83,6 +83,7 @@ $(document).on("click", "#clear-button", function () {
 	$("#clear-button").toggle()
 	$("#tableToCSV").toggle()
 	$("#myChart").toggle()
+	// Clear the search bar contents
 	document.querySelector("#search-input").value = ""
 })
 
@@ -302,6 +303,9 @@ dragBox.on("boxend", function () {
 		.replace(/[&\/\\#^+()$~%.'":;,*?<>{}!@]/g, "")
 	testing(result)
 	$("#myChart").toggle()
+
+	// Clear contents of search bar
+	document.querySelector("#search-input").value = ""
 })
 
 // clear selection when drawing a new box and when clicking on the map
@@ -440,6 +444,9 @@ map.on("click", (event) => {
 		testing(result)
 		$("#myChart").toggle()
 	})
+
+	// Clear search bar contents
+	document.querySelector("#search-input").value = ""
 })
 
 // Instantiate with some options and add the Control
