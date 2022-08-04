@@ -519,6 +519,9 @@ selectAllBtn.addEventListener("click", () => {
 		$("#clear-button").toggle()
 		$("#tableToCSV").toggle()
 	})
+
+	// Clear search bar contents
+	document.querySelector("#search-input").value = ""
 })
 
 // Instantiate with some options and add the Control
