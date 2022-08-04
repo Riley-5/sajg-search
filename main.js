@@ -449,7 +449,6 @@ map.on("click", (event) => {
 	document.querySelector("#search-input").value = ""
 })
 
-// TODO
 /*
 	Select all btn clicked
 	Get all the journal articals and add them to the table below the map
@@ -522,6 +521,27 @@ selectAllBtn.addEventListener("click", () => {
 
 	// Clear search bar contents
 	document.querySelector("#search-input").value = ""
+})
+
+// TODO
+/*
+	Hover over location when there is a table below map
+	Location hovered style the corresponding journal articals to that location
+*/
+map.on("pointermove", (event) => {
+	map.forEachFeatureAtPixel(event.pixel, (feature) => {
+		// Check if table is showing
+		if ($("#info").is(":visible")) {
+			const table = document.querySelector("#info-table")
+			for (const row of table.rows) {
+				for (const cell of row.cells) {
+					if (feature.get("Title") === cell.innerHTML) {
+						console.log("yes")
+					}
+				}
+			}
+		}
+	})
 })
 
 // Instantiate with some options and add the Control
