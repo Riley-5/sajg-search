@@ -528,20 +528,47 @@ selectAllBtn.addEventListener("click", () => {
 	Hover over location when there is a table below map
 	Location hovered style the corresponding journal articals to that location
 */
+let selected = null
 map.on("pointermove", (event) => {
-	map.forEachFeatureAtPixel(event.pixel, (feature) => {
-		// Check if table is showing
-		if ($("#info").is(":visible")) {
-			const table = document.querySelector("#info-table")
-			for (const row of table.rows) {
-				for (const cell of row.cells) {
-					if (feature.get("Title") === cell.innerHTML) {
-						console.log("yes")
-					}
+	if (selected !== null) {
+		const table = document.querySelector("#info-table")
+		for (const row of table.rows) {
+			for (const cell of row.cells) {
+				if (selected.get("Title") === cell.innerHTML) {
+					row.style.backgroundColor = "white"
 				}
 			}
 		}
+		selected = null
+	}
+
+	map.forEachFeatureAtPixel(event.pixel, (feature) => {
+		selected = feature
+		return true
+
+		// Check if table is showing
+		// if ($("#info").is(":visible")) {
+		// 	const table = document.querySelector("#info-table")
+		// 	for (const row of table.rows) {
+		// 		for (const cell of row.cells) {
+		// 			if (feature.get("Title") === cell.innerHTML) {
+		// 				row.style.backgroundColor = "lightgrey"
+		// 			}
+		// 		}
+		// 	}
+		// }
 	})
+
+	if (selected && $("#info").is(":visible")) {
+		const table = document.querySelector("#info-table")
+		for (const row of table.rows) {
+			for (const cell of row.cells) {
+				if (selected.get("Title") === cell.innerHTML) {
+					row.style.backgroundColor = "lightgrey"
+				}
+			}
+		}
+	}
 })
 
 // Instantiate with some options and add the Control
