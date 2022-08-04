@@ -526,47 +526,40 @@ selectAllBtn.addEventListener("click", () => {
 // TODO
 /*
 	Hover over location when there is a table below map
-	Location hovered style the corresponding journal articals to that location
+	Location hovered style the corresponding journal artical row
 */
 let selected = null
-map.on("pointermove", (event) => {
-	if (selected !== null) {
-		const table = document.querySelector("#info-table")
-		for (const row of table.rows) {
-			for (const cell of row.cells) {
-				if (selected.get("Title") === cell.innerHTML) {
-					row.style.backgroundColor = "white"
-				}
+const table = document.querySelector("#info-table")
+/*
+	Loops through the table and sets the corresponding map location features row colour 
+*/
+const tableRowColour = (colour) => {
+	for (const row of table.rows) {
+		for (const cell of row.cells) {
+			if (selected.get("Title") === cell.innerHTML) {
+				row.style.backgroundColor = colour
 			}
 		}
-		selected = null
 	}
+}
 
-	map.forEachFeatureAtPixel(event.pixel, (feature) => {
-		selected = feature
-		return true
+map.on("pointermove", (event) => {
+	// First check if the something is selected therefore table showing
+	if ($("#info").is(":visible")) {
+		// If the mouse is not over a feature make the row colour white
+		if (selected !== null) {
+			tableRowColour("white")
+			selected = null
+		}
 
-		// Check if table is showing
-		// if ($("#info").is(":visible")) {
-		// 	const table = document.querySelector("#info-table")
-		// 	for (const row of table.rows) {
-		// 		for (const cell of row.cells) {
-		// 			if (feature.get("Title") === cell.innerHTML) {
-		// 				row.style.backgroundColor = "lightgrey"
-		// 			}
-		// 		}
-		// 	}
-		// }
-	})
+		// When the mouse is over a feature make the selected variable equal to that feature
+		map.forEachFeatureAtPixel(event.pixel, (feature) => {
+			selected = feature
+			return true
+		})
 
-	if (selected && $("#info").is(":visible")) {
-		const table = document.querySelector("#info-table")
-		for (const row of table.rows) {
-			for (const cell of row.cells) {
-				if (selected.get("Title") === cell.innerHTML) {
-					row.style.backgroundColor = "lightgrey"
-				}
-			}
+		if (selected) {
+			tableRowColour("lightgrey")
 		}
 	}
 })
