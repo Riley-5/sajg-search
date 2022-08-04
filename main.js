@@ -453,12 +453,71 @@ map.on("click", (event) => {
 /*
 	Select all btn clicked
 	Get all the journal articals and add them to the table below the map
-	
 */
 const selectAllBtn = document.querySelector("#select-all-btn")
 selectAllBtn.addEventListener("click", () => {
+	// Clear selected feaures and empty the data array
+	selectedFeatures.clear()
+	dataArray = []
+
+	// Loop through the vector layer and add each layer to the table below the map
 	vectorLayer.getSource().forEachFeature((feature) => {
-		console.log(feature.get("Title"))
+		$("#info-table > tbody").html("")
+		if ($("#info").is(":visible")) {
+			$("#info").toggle()
+			$("#search-input").toggle()
+			$("#clear-button").toggle()
+			$("#tableToCSV").toggle()
+			$("#myChart").toggle()
+		}
+
+		var done = []
+		var test = null
+		selectedFeatures.push(feature)
+
+		// Loop through the dataArray for the clicked on point and add the journal artical data to the table
+		for (var i = 0; i < dataArray.length; i++) {
+			test = dataArray[i].ID
+
+			if (findValueInArray(test, done) == "Doesn't exist") {
+				$("#info-table > tbody:last-child").append(
+					"<tr>" + // need to change closing tag to an opening `<tr>` tag.
+						// + '<td>' + dataArray[i].ID + '</td>'
+						"<td>" +
+						dataArray[i].Title +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Author +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Keywords +
+						"</td>" +
+						//+ '<td><span class="more">' + dataArray[i].Abstract + '</span></td>'
+						"<td>" +
+						dataArray[i].Abstract +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Vol +
+						"</td>" +
+						"<td>" +
+						dataArray[i].Year +
+						"</td>" +
+						'<td><a href="' +
+						dataArray[i].Link +
+						'" target="_blank">' +
+						dataArray[i].Link +
+						"</a></td>" +
+						"</tr>"
+				)
+			}
+			done.push(test)
+		}
+
+		// Show the table below the map
+		$("#info").toggle()
+		$("#search-input").toggle()
+		$("#clear-button").toggle()
+		$("#tableToCSV").toggle()
 	})
 })
 
