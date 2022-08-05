@@ -35,6 +35,8 @@ import Geocoder from "ol-geocoder"
 import Overlay from "ol/Overlay"
 
 var dataArray = []
+var done = []
+var test = null
 const infoBox = document.getElementById("info")
 
 function downloadCSVFile(csv_data) {
@@ -227,32 +229,12 @@ const dragBox = new DragBox({
 
 map.addInteraction(dragBox)
 
-dragBox.on("boxend", function () {
-	var done = []
-	var test = null
-
-	const rotation = map.getView().getRotation()
-	const oblique = rotation % (Math.PI / 2) !== 0
-	const candidateFeatures = oblique ? [] : selectedFeatures
-	const extent = dragBox.getGeometry().getExtent()
-	vectorLayer.getSource().forEachFeatureInExtent(extent, function (feature) {
-		candidateFeatures.push(feature)
-	})
-
-	if (oblique) {
-		const anchor = [0, 0]
-		const geometry = dragBox.getGeometry().clone()
-		geometry.rotate(-rotation, anchor)
-		const extent = geometry.getExtent()
-		candidateFeatures.forEach(function (feature) {
-			const geometry = feature.getGeometry().clone()
-			geometry.rotate(-rotation, anchor)
-			if (geometry.intersectsExtent(extent)) {
-				selectedFeatures.push(feature)
-			}
-		})
-	}
-
+/*
+	Loops through the data array
+	Adds all the data in the data array into a table that will show below the map
+	Data of interest is Title, Author, Keywords, Abstract, Vol, Year and Link
+*/
+const addDataToTable = () => {
 	for (var i = 0; i < dataArray.length; i++) {
 		test = dataArray[i].ID
 
@@ -289,20 +271,62 @@ dragBox.on("boxend", function () {
 		}
 		done.push(test)
 	}
-	// var rowCount = $('#info-table tr').length - 1;
-	// $('#lblName').text(rowCount + ' articles');
+}
+
+// Function to switch on and off layers
+const toggleLayers = () => {
 	$("#info").toggle()
 	$("#search-input").toggle()
 	$("#clear-button").toggle()
 	$("#tableToCSV").toggle()
+	$("#myChart").toggle()
+}
 
+// Fucntion that loops through the dataArray and adds the words into a worldcloud
+const wordcloud = () => {
 	var result = dataArray.map((x) => x.Keywords)
 	result = result
 		.toString()
 		.toLowerCase()
 		.replace(/[&\/\\#^+()$~%.'":;,*?<>{}!@]/g, "")
 	testing(result)
-	$("#myChart").toggle()
+}
+
+dragBox.on("boxend", function () {
+	done = []
+	test = null
+
+	const rotation = map.getView().getRotation()
+	const oblique = rotation % (Math.PI / 2) !== 0
+	const candidateFeatures = oblique ? [] : selectedFeatures
+	const extent = dragBox.getGeometry().getExtent()
+	vectorLayer.getSource().forEachFeatureInExtent(extent, function (feature) {
+		candidateFeatures.push(feature)
+	})
+
+	if (oblique) {
+		const anchor = [0, 0]
+		const geometry = dragBox.getGeometry().clone()
+		geometry.rotate(-rotation, anchor)
+		const extent = geometry.getExtent()
+		candidateFeatures.forEach(function (feature) {
+			const geometry = feature.getGeometry().clone()
+			geometry.rotate(-rotation, anchor)
+			if (geometry.intersectsExtent(extent)) {
+				selectedFeatures.push(feature)
+			}
+		})
+	}
+
+	// Add the data to the table
+	addDataToTable()
+	// Add datas keywords to wordcloud
+	wordcloud()
+
+	// var rowCount = $('#info-table tr').length - 1;
+	// $('#lblName').text(rowCount + ' articles');
+	// Show the table below the map
+	toggleLayers()
 
 	// Clear contents of search bar
 	document.querySelector("#search-input").value = ""
@@ -314,12 +338,9 @@ dragBox.on("boxstart", function () {
 	dataArray = []
 	$("#info-table > tbody").html("")
 
+	// If the table is showing hide the table
 	if ($("#info").is(":visible")) {
-		$("#info").toggle()
-		$("#search-input").toggle()
-		$("#clear-button").toggle()
-		$("#tableToCSV").toggle()
-		$("#myChart").toggle()
+		toggleLayers()
 	}
 })
 
@@ -361,12 +382,10 @@ map.on("click", (event) => {
 	*/
 	selectedFeatures.clear()
 	dataArray = []
+
+	// If the map is clickec and the table is showing hide the table
 	if ($("#info").is(":visible")) {
-		$("#info").toggle()
-		$("#search-input").toggle()
-		$("#clear-button").toggle()
-		$("#tableToCSV").toggle()
-		$("#myChart").toggle()
+		toggleLayers()
 	}
 
 	/*
@@ -379,70 +398,24 @@ map.on("click", (event) => {
 		selectedFeatures.clear()
 		dataArray = []
 		$("#info-table > tbody").html("")
+
+		// If a point is clicked and the table is showing hide the table
 		if ($("#info").is(":visible")) {
-			$("#info").toggle()
-			$("#search-input").toggle()
-			$("#clear-button").toggle()
-			$("#tableToCSV").toggle()
-			$("#myChart").toggle()
+			toggleLayers()
 		}
 
-		var done = []
-		var test = null
+		done = []
+		test = null
 		selectedFeatures.push(feature)
 
-		// Loop through the dataArray for the clicked on point and add the journal artical data to the table
-		for (var i = 0; i < dataArray.length; i++) {
-			test = dataArray[i].ID
-
-			if (findValueInArray(test, done) == "Doesn't exist") {
-				$("#info-table > tbody:last-child").append(
-					"<tr>" + // need to change closing tag to an opening `<tr>` tag.
-						// + '<td>' + dataArray[i].ID + '</td>'
-						"<td>" +
-						dataArray[i].Title +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Author +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Keywords +
-						"</td>" +
-						//+ '<td><span class="more">' + dataArray[i].Abstract + '</span></td>'
-						"<td>" +
-						dataArray[i].Abstract +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Vol +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Year +
-						"</td>" +
-						'<td><a href="' +
-						dataArray[i].Link +
-						'" target="_blank">' +
-						dataArray[i].Link +
-						"</a></td>" +
-						"</tr>"
-				)
-			}
-			done.push(test)
-		}
-
-		// Show the table for the clicked on journal artical
-		$("#info").toggle()
-		$("#search-input").toggle()
-		$("#clear-button").toggle()
-		$("#tableToCSV").toggle()
+		// Add the selected features to the table
+		addDataToTable()
 
 		// Add the keywords to the word cloud for the clicked on marker
-		var result = dataArray.map((x) => x.Keywords)
-		result = result
-			.toString()
-			.toLowerCase()
-			.replace(/[&\/\\#^+()$~%.'":;,*?<>{}!@]/g, "")
-		testing(result)
-		$("#myChart").toggle()
+		wordcloud()
+
+		// Show the table for the clicked on journal artical
+		toggleLayers()
 	})
 
 	// Clear search bar contents
@@ -462,87 +435,36 @@ selectAllBtn.addEventListener("click", () => {
 	// Loop through the vector layer and add each layer to the table below the map
 	vectorLayer.getSource().forEachFeature((feature) => {
 		$("#info-table > tbody").html("")
+		// If the table is showing on the map hide it
 		if ($("#info").is(":visible")) {
-			$("#info").toggle()
-			$("#search-input").toggle()
-			$("#clear-button").toggle()
-			$("#tableToCSV").toggle()
-			$("#myChart").toggle()
+			toggleLayers()
 		}
 
-		var done = []
-		var test = null
+		done = []
+		test = null
 		selectedFeatures.push(feature)
 
-		// Loop through the dataArray for the clicked on point and add the journal artical data to the table
-		for (var i = 0; i < dataArray.length; i++) {
-			test = dataArray[i].ID
+		// Add all the data to the table
+		addDataToTable()
 
-			if (findValueInArray(test, done) == "Doesn't exist") {
-				$("#info-table > tbody:last-child").append(
-					"<tr>" + // need to change closing tag to an opening `<tr>` tag.
-						// + '<td>' + dataArray[i].ID + '</td>'
-						"<td>" +
-						dataArray[i].Title +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Author +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Keywords +
-						"</td>" +
-						//+ '<td><span class="more">' + dataArray[i].Abstract + '</span></td>'
-						"<td>" +
-						dataArray[i].Abstract +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Vol +
-						"</td>" +
-						"<td>" +
-						dataArray[i].Year +
-						"</td>" +
-						'<td><a href="' +
-						dataArray[i].Link +
-						'" target="_blank">' +
-						dataArray[i].Link +
-						"</a></td>" +
-						"</tr>"
-				)
-			}
-			done.push(test)
-		}
+		// Add the keywords to the word cloud for all the data
+		wordcloud()
 
 		// Show the table below the map
-		$("#info").toggle()
-		$("#search-input").toggle()
-		$("#clear-button").toggle()
-		$("#tableToCSV").toggle()
+		toggleLayers()
 	})
 
 	// Clear search bar contents
 	document.querySelector("#search-input").value = ""
 })
 
-// TODO
 /*
-	Hover over location when there is a table below map
-	Location hovered style the corresponding journal artical row
+	When the mouse moves over a feature on the map
+	If the feature is in the table style that row a light grey background
+	Otherwise the row must be white background
 */
 let selected = null
 const table = document.querySelector("#info-table")
-/*
-	Loops through the table and sets the corresponding map location features row colour 
-*/
-const tableRowColour = (colour) => {
-	for (const row of table.rows) {
-		for (const cell of row.cells) {
-			if (selected.get("Title") === cell.innerHTML) {
-				row.style.backgroundColor = colour
-			}
-		}
-	}
-}
-
 map.on("pointermove", (event) => {
 	// First check if the something is selected therefore table showing
 	if ($("#info").is(":visible")) {
@@ -563,6 +485,20 @@ map.on("pointermove", (event) => {
 		}
 	}
 })
+
+/*
+	Function takes a parameter colour as a string 
+	Loops through the table and sets the corresponding map location features row colour 
+*/
+const tableRowColour = (colour) => {
+	for (const row of table.rows) {
+		for (const cell of row.cells) {
+			if (selected.get("Title") === cell.innerHTML) {
+				row.style.backgroundColor = colour
+			}
+		}
+	}
+}
 
 // Instantiate with some options and add the Control
 const geocoder = new Geocoder("nominatim", {
