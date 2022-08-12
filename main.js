@@ -556,5 +556,3 @@ function testing(text) {
 		width: "100%"
 	})
 }
-
-// pullrequest test
