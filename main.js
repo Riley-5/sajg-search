@@ -66,7 +66,6 @@ function downloadCSVFile(csv_data) {
 }
 
 $(document).ready(function () {
-	$("#search-input").toggle()
 	$("#search-input").on("keyup", function () {
 		var value = $(this).val().toLowerCase()
 		$("#info-table tr").filter(function () {
@@ -75,6 +74,27 @@ $(document).ready(function () {
 	})
 	// var rowCount = $('#info-table tr').length - 1;
 	// $('#lblName').text(rowCount + ' articles');
+})
+
+// TODO
+/*
+	When user searches for key words bring up all the journal articals relating to that search
+*/
+$(document).ready(() => {
+	$("#search-input").toggle()
+	let searchArr = []
+	vectorLayer.getSource().forEachFeature((feature) => {
+		searchArr.push(feature.values_)
+	})
+	console.log(searchArr)
+	$("#search-input").on("keyup", () => {
+		var searchValue = $("#search-input").val().toLowerCase()
+		console.log(searchValue)
+		/*
+			Loop through array 
+			Check if searchValue is in one of the objects
+		*/
+	})
 })
 
 $(document).on("click", "#clear-button", function () {
