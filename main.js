@@ -66,6 +66,7 @@ function downloadCSVFile(csv_data) {
 }
 
 $(document).ready(function () {
+	$("#search-input").toggle()
 	$("#search-input").on("keyup", function () {
 		var value = $(this).val().toLowerCase()
 		$("#info-table tr").filter(function () {
