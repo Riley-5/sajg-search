@@ -85,16 +85,22 @@ $(document).ready(() => {
 	let searchArr = []
 	vectorLayer.getSource().forEachFeature((feature) => {
 		searchArr.push(feature.values_)
+		const objectArr = Object.values(feature.values_)
+		objectArr.map((values) => {
+			console.log(values)
+			/*
+				Must get all words by themselves then can query for search input word
+			*/
+		})
 	})
-	console.log(searchArr)
-	$("#search-input").on("keyup", () => {
-		var searchValue = $("#search-input").val().toLowerCase()
-		console.log(searchValue)
-		/*
-			Loop through array 
-			Check if searchValue is in one of the objects
-		*/
-	})
+
+	// $("#search-input").on("keyup", () => {
+	// 	let searchValue = $("#search-input").val().toLowerCase()
+	// 	/*
+	// 		Loop through array
+	// 		Check if searchValue is in one of the objects
+	// 	*/
+	// })
 })
 
 $(document).on("click", "#clear-button", function () {
