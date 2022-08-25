@@ -82,8 +82,11 @@ $(document).ready(function () {
 */
 $(document).ready(() => {
 	$("#search-input").toggle()
+	$("#clear-button").toggle()
+	$("#tableToCSV").toggle()
 	$("#search-input").on("keyup", () => {
 		selectedFeatures.clear()
+		dataArray = []
 		const searchValue = $("#search-input").val().toLowerCase()
 
 		vectorLayer.getSource().forEachFeature((feature) => {
@@ -98,25 +101,13 @@ $(document).ready(() => {
 			})
 		})
 	})
-
-	// $("#search-input").on("keyup", () => {
-	// 	let searchValue = $("#search-input").val().toLowerCase()
-	// 	/*
-	// 		Loop through array
-	// 		Check if searchValue is in one of the objects
-	// 	*/
-	// })
 })
 
 $(document).on("click", "#clear-button", function () {
 	selectedFeatures.clear()
 	dataArray = []
 	$("#info-table > tbody").html("")
-	$("#info").toggle()
-	$("#search-input").toggle()
-	$("#clear-button").toggle()
-	$("#tableToCSV").toggle()
-	$("#myChart").toggle()
+	toggleLayers()
 	// Clear the search bar contents
 	document.querySelector("#search-input").value = ""
 })
@@ -308,9 +299,9 @@ const addDataToTable = () => {
 // Function to switch on and off layers
 const toggleLayers = () => {
 	$("#info").toggle()
-	$("#search-input").toggle()
-	$("#clear-button").toggle()
-	$("#tableToCSV").toggle()
+	// $("#search-input").toggle()
+	// $("#clear-button").toggle()
+	// $("#tableToCSV").toggle()
 	$("#myChart").toggle()
 }
 
