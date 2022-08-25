@@ -76,9 +76,11 @@ $(document).ready(function () {
 	// $('#lblName').text(rowCount + ' articles');
 })
 
-// TODO
 /*
 	When user searches for key words bring up all the journal articals relating to that search
+	On a keyup clear the dataarrray and selected feartures so that every letter added starts on a clean seach
+	Loop through the data on the map and the object values for each array item
+	If the searched value is inside on the object values then select that location point on the map 
 */
 $(document).ready(() => {
 	$("#search-input").toggle()
