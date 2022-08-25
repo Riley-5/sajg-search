@@ -81,12 +81,17 @@ $(document).ready(function () {
 	On a keyup clear the dataarrray and selected feartures so that every letter added starts on a clean seach
 	Loop through the data on the map and the object values for each array item
 	If the searched value is inside on the object values then select that location point on the map 
+	Add table of those search results journal entries and display table
 */
 $(document).ready(() => {
+	document.querySelector("#search-input").value = ""
 	$("#search-input").toggle()
 	$("#clear-button").toggle()
 	$("#tableToCSV").toggle()
+	let timer = null
 	$("#search-input").on("keyup", () => {
+		// Restart timer on every keyup
+		clearTimeout(timer)
 		selectedFeatures.clear()
 		dataArray = []
 		const searchValue = $("#search-input").val().toLowerCase()
@@ -102,6 +107,18 @@ $(document).ready(() => {
 				}
 			})
 		})
+
+		/*
+			Wiats a second between keys pressed
+			If a second passes take the selected features from the search input and add it to the table 
+			Display the table and wordcloud
+		*/
+		timer = setTimeout(() => {
+			addDataToTable()
+			wordcloud()
+
+			toggleLayers()
+		}, 1000)
 	})
 })
 
