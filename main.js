@@ -76,15 +76,57 @@ $(document).ready(function () {
 	// $('#lblName').text(rowCount + ' articles');
 })
 
+/*
+	When user searches for key words bring up all the journal articals relating to that search
+	On a keyup clear the dataarrray and selected feartures so that every letter added starts on a clean seach
+	Loop through the data on the map and the object values for each array item
+	If the searched value is inside on the object values then select that location point on the map 
+	Add table of those search results journal entries and display table
+*/
+$(document).ready(() => {
+	document.querySelector("#search-input").value = ""
+	$("#search-input").toggle()
+	$("#clear-button").toggle()
+	$("#tableToCSV").toggle()
+	let timer = null
+	$("#search-input").on("keyup", () => {
+		// Restart timer on every keyup
+		clearTimeout(timer)
+		selectedFeatures.clear()
+		dataArray = []
+		const searchValue = $("#search-input").val().toLowerCase()
+
+		vectorLayer.getSource().forEachFeature((feature) => {
+			const objectArr = Object.values(feature.values_)
+			objectArr.map((values) => {
+				if (values !== null) {
+					const stringValues = values.toString().toLowerCase()
+					if (stringValues.includes(searchValue)) {
+						selectedFeatures.push(feature)
+					}
+				}
+			})
+		})
+
+		/*
+			Wiats a second between keys pressed
+			If a second passes take the selected features from the search input and add it to the table 
+			Display the table and wordcloud
+		*/
+		timer = setTimeout(() => {
+			addDataToTable()
+			wordcloud()
+
+			toggleLayers()
+		}, 1000)
+	})
+})
+
 $(document).on("click", "#clear-button", function () {
 	selectedFeatures.clear()
 	dataArray = []
 	$("#info-table > tbody").html("")
-	$("#info").toggle()
-	$("#search-input").toggle()
-	$("#clear-button").toggle()
-	$("#tableToCSV").toggle()
-	$("#myChart").toggle()
+	toggleLayers()
 	// Clear the search bar contents
 	document.querySelector("#search-input").value = ""
 })
@@ -276,9 +318,9 @@ const addDataToTable = () => {
 // Function to switch on and off layers
 const toggleLayers = () => {
 	$("#info").toggle()
-	$("#search-input").toggle()
-	$("#clear-button").toggle()
-	$("#tableToCSV").toggle()
+	// $("#search-input").toggle()
+	// $("#clear-button").toggle()
+	// $("#tableToCSV").toggle()
 	$("#myChart").toggle()
 }
 
