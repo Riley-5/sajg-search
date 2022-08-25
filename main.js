@@ -82,15 +82,20 @@ $(document).ready(function () {
 */
 $(document).ready(() => {
 	$("#search-input").toggle()
-	let searchArr = []
-	vectorLayer.getSource().forEachFeature((feature) => {
-		searchArr.push(feature.values_)
-		const objectArr = Object.values(feature.values_)
-		objectArr.map((values) => {
-			console.log(values)
-			/*
-				Must get all words by themselves then can query for search input word
-			*/
+	$("#search-input").on("keyup", () => {
+		selectedFeatures.clear()
+		const searchValue = $("#search-input").val().toLowerCase()
+
+		vectorLayer.getSource().forEachFeature((feature) => {
+			const objectArr = Object.values(feature.values_)
+			objectArr.map((values) => {
+				if (values !== null) {
+					const stringValues = values.toString().toLowerCase()
+					if (stringValues.includes(searchValue)) {
+						selectedFeatures.push(feature)
+					}
+				}
+			})
 		})
 	})
 
