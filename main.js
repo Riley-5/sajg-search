@@ -89,28 +89,28 @@ $(document).ready(() => {
 	$("#clear-button").toggle()
 	$("#tableToCSV").toggle()
 	let timer = null
+
 	$("#search-input").on("keyup", () => {
 		// Restart timer on every keyup
 		clearTimeout(timer)
 		selectedFeatures.clear()
 		dataArray = []
-		if ($("#info").is(":visible")) {
-			toggleLayers()
-		}
 
 		const searchValue = $("#search-input").val().toLowerCase()
 
-		vectorLayer.getSource().forEachFeature((feature) => {
-			const objectArr = Object.values(feature.values_)
-			objectArr.map((values) => {
-				if (values !== null) {
-					const stringValues = values.toString().toLowerCase()
-					if (stringValues.includes(searchValue)) {
-						selectedFeatures.push(feature)
+		if (searchValue !== "") {
+			vectorLayer.getSource().forEachFeature((feature) => {
+				const objectArr = Object.values(feature.values_)
+				objectArr.map((values) => {
+					if (values !== null) {
+						const stringValues = values.toString().toLowerCase()
+						if (stringValues.includes(searchValue)) {
+							selectedFeatures.push(feature)
+						}
 					}
-				}
+				})
 			})
-		})
+		}
 
 		/*
 			Wiats a second between keys pressed
