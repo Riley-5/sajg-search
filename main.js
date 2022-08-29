@@ -94,6 +94,10 @@ $(document).ready(() => {
 		clearTimeout(timer)
 		selectedFeatures.clear()
 		dataArray = []
+		if ($("#info").is(":visible")) {
+			toggleLayers()
+		}
+
 		const searchValue = $("#search-input").val().toLowerCase()
 
 		vectorLayer.getSource().forEachFeature((feature) => {
@@ -116,7 +120,6 @@ $(document).ready(() => {
 		timer = setTimeout(() => {
 			addDataToTable()
 			wordcloud()
-
 			toggleLayers()
 		}, 1000)
 	})
