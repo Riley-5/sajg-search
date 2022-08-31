@@ -78,9 +78,11 @@ $(document).ready(function () {
 
 /*
 	When user searches for key words bring up all the journal articals relating to that search
-	On a keyup clear the dataarrray and selected feartures so that every letter added starts on a clean seach
+	On a keyup clear the data arrray and selected feartures so that every letter added starts on a clean search
 	Loop through the data on the map and the object values for each array item
 	If the searched value is inside on the object values then select that location point on the map 
+
+	When the enter key is pressed 
 	Add table of those search results journal entries and display table
 */
 $(document).ready(() => {
@@ -88,15 +90,11 @@ $(document).ready(() => {
 	$("#search-input").toggle()
 	$("#clear-button").toggle()
 	$("#tableToCSV").toggle()
-	let timer = null
 
-	$("#search-input").on("keyup", () => {
-		// Restart timer on every keyup
-		clearTimeout(timer)
+	$("#search-input").on("keyup", (event) => {
+		const searchValue = $("#search-input").val().toLowerCase()
 		selectedFeatures.clear()
 		dataArray = []
-
-		const searchValue = $("#search-input").val().toLowerCase()
 
 		if (searchValue !== "") {
 			vectorLayer.getSource().forEachFeature((feature) => {
@@ -113,15 +111,23 @@ $(document).ready(() => {
 		}
 
 		/*
-			Wiats a second between keys pressed
-			If a second passes take the selected features from the search input and add it to the table 
-			Display the table and wordcloud
+			When enter key pressed add data to the table 
+			If the table is not showing dont toggle table and wordcloud
 		*/
-		timer = setTimeout(() => {
+		if (event.key === "Enter") {
 			addDataToTable()
 			wordcloud()
+			if (!$("#info").is(":visible")) {
+				toggleLayers()
+			}
+		}
+
+		/*
+			If the search is an empty string and table is visible hide the table and wordcloud
+		*/
+		if (searchValue === "" && $("#info").is(":visible")) {
 			toggleLayers()
-		}, 1000)
+		}
 	})
 })
 
