@@ -22,7 +22,7 @@ body {
 }
 .sidepanel {
 	position: relative;
-	background: #1f6b75;
+	background: #92c5de;
 	width: 20%;
 	height: 50%;
 	float: right;
@@ -41,7 +41,7 @@ body {
 	width: 100%;
 	font-size: 0.8em;
 	font-style: italic;
-	color: #ffffff;
+	color: #2f5496;
 	display: block;
 	text-align: left;
 	padding-top: 10px;
@@ -60,6 +60,8 @@ body {
 	display: none;
 	margin-top: 10px;
 	float: right;
+	background-color: #2f5496;
+	border: none;
 }
 
 #tableToCSV {
@@ -67,6 +69,8 @@ body {
 	margin-top: 10px;
 	float: right;
 	margin-right: 10px;
+	background-color: #2f5496;
+	border: none;
 }
 
 #lblName {
@@ -101,9 +105,16 @@ th {
 	margin-top: 20px;
 }
 
-#count {
-	margin-top: 20px;
+.count {
 	position: relative;
+}
+
+#btn-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
 }
 
 .no-records-found {
@@ -148,4 +159,6 @@ th {
 	right: 0;
 	margin: auto;
 	bottom: 1.5vh;
+	background-color: #2f5496;
+	border: none;
 }

@@ -46,7 +46,7 @@
 		<title>SAJG Spatial Search</title>
 		<script type="module" crossorigin src="/assets/index.2f994caf.js"></script>
 		<link rel="modulepreload" href="/assets/vendor.6c4903e9.js">
-		<link rel="stylesheet" href="/assets/index.4a04c6a5.css">
+		<link rel="stylesheet" href="/assets/index.99a80fbe.css">
 	</head>
 	<body>
 		<div class="sidepanel">
@@ -62,16 +62,18 @@
 		<div id="map" class="map"></div>
 		<div id="popup" class="ol-popup"></div>
 		<div class="count">
-			<input
-				class="form-control"
-				id="search-input"
-				type="text"
-				placeholder="Search.."
-			/>
-			<button class="btn btn-danger" id="clear-button">Clear Search</button>
-			<button class="btn btn-info" type="button" id="tableToCSV">
-				Download CSV
-			</button>
+			<div id="btn-container">
+				<input
+					class="form-control"
+					id="search-input"
+					type="text"
+					placeholder="Search.."
+				/>
+				<button class="btn btn-danger" id="clear-button">Clear Search</button>
+				<button class="btn btn-info" type="button" id="tableToCSV">
+					Download CSV
+				</button>
+			</div>
 			<label id="lblName" class="lblName"></label>
 		</div>
 		<div id="info">
