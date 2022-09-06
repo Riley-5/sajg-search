@@ -581,7 +581,7 @@ function testing(text) {
 
 	var myConfig = {
 		type: "wordcloud",
-		backgroundColor: "#1F6B75",
+		backgroundColor: "#92C5DE",
 		options: {
 			text: text,
 			minLength: 3,
